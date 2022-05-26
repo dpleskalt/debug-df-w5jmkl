@@ -13,6 +13,7 @@ import {
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
+  ValidatorFn
 } from '@angular/forms';
 import { FormStateService } from '../form-state.service';
 
@@ -39,7 +40,17 @@ export class FormGroupComponent
   @Input() group!: {
     groups: [];
     arrays: [];
-    controls: [{ id: string; name: string; label: string; value: any }];
+    controls: [{
+      id: string,
+      name: string,
+      label: string,
+      value: string,
+      display: boolean,
+      readonly: boolean,
+      control: string,
+      type: string,
+      validators: ValidatorFn[],
+    }];
   };
   @Input() name!: string;
 
