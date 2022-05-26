@@ -15,7 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { GetObjectPipe } from './get-object.pipe';
-import { MatIconModule } from '@angular/material/icon/icon-module';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
