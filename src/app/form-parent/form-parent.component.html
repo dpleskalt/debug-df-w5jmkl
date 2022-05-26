@@ -1,0 +1,33 @@
+<mat-card class="card-parent mat-elevation-z8">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <ng-container *ngFor="let label of groupLabels">
+      <app-form-group
+        [formControlName]="label"
+        [group]="model.groups | getObject: label"
+        [name]="label"
+      ></app-form-group>
+    </ng-container>
+    <!-- <ng-container *ngFor="let label of controlLabels">
+      <app-form-control
+        [formControlName]="label"
+        [controlLabel]="label"
+        [controlValue]="label"
+      ></app-form-control>
+    </ng-container> -->
+    <!-- <app-form-array
+      *ngIf="isArray(item.value)"
+      [formControlName]="item.key"
+      [array]="item.value"
+    ></app-form-array> -->
+
+    <button
+      matButton
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!this.form.valid"
+    >
+      Submit
+    </button>
+  </form>
+</mat-card>

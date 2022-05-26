@@ -1,0 +1,21 @@
+<mat-card class="card-group mat-elevation-z3">
+  <div class="section-label">{{ name || 'empty' }}</div>
+  <form [formGroup]="form">
+    <ng-container *ngFor="let control of group.controls">
+      <app-form-control
+        [formControlName]="control.name"
+        [control]="control"
+      ></app-form-control>
+    </ng-container>
+    <ng-container *ngFor="let label of groupLabels">
+      <app-form-group
+        [formControlName]="label"
+        [group]="group.groups | getObject: label"
+        [name]="label"
+      ></app-form-group>
+    </ng-container>
+    <ng-container *ngFor="let item of group.arrays; let i = index">
+      <app-form-array [formControlName]="" [formArray]="item"></app-form-array>
+    </ng-container>
+  </form>
+</mat-card>

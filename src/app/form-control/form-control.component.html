@@ -1,0 +1,24 @@
+<mat-form-field
+  appearance="outline"
+  class="control-container"
+  [ngStyle]="{ display: control['display'] ? 'inline-block' : 'none' }"
+>
+  <mat-label>{{ control['label'] }}</mat-label>
+  <input
+    matInput
+    type="{{ control['type'] }}"
+    [formControl]="fc"
+    (focus)="setTouchedState()"
+    readonly="{{ control['readonly'] }}"
+    [ngStyle]="{ color: control['readonly'] ? 'gray' : 'black' }"
+  />
+  <mat-hint *ngIf="fc.errors">
+    <mat-chip-list aria-label="control errors">
+      <ng-container *ngFor="let error of fc.errors | keyvalue">
+        <mat-chip color="warn" selected class="error-chip">{{
+          error.key
+        }}</mat-chip>
+      </ng-container>
+    </mat-chip-list>
+  </mat-hint>
+</mat-form-field>

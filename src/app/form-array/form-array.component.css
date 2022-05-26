@@ -1,0 +1,10 @@
+.card-array {
+  background-color: #8FDDDF;
+  margin: 1rem;
+}
+
+.section-label {
+  font-variant: small-caps;
+  font-weight: 500;
+  padding-bottom: 1rem;
+}
