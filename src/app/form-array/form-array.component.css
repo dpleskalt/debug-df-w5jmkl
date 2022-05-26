@@ -3,6 +3,12 @@
   margin: 1rem;
 }
 
+.header-actions {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
 .section-label {
   font-variant: small-caps;
   font-weight: 500;

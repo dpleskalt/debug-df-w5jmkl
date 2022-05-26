@@ -1,9 +1,11 @@
 <form [formGroup]="form">
   <ng-container *ngFor="let label of arrayLabels">
     <mat-card [formArrayName]="label" class="card-array">
-    <div>
-      <span class="section-label">{{ label }}</span>
-      <span><button mat-raised-button></button></span>
+    <div class="header-actions">
+      <div class="section-label">{{ label }}</div>
+      <button mat-mini-fab color="accent">
+      <mat-icon>filter_list</mat-icon>
+    </button>
     </div>
       <div formGroupName="0">
         <ng-container *ngFor="let control of formArray[label].controls">
