@@ -57,8 +57,7 @@ export class FormArrayComponent
   constructor(private fb: FormBuilder, private formState: FormStateService) {}
 
   ngOnInit() {
-    
-
+    console.log(this.formArray);
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
@@ -69,25 +68,10 @@ export class FormArrayComponent
 
   ngAfterViewInit() {
     setTimeout(() => {
-      if (this.formArray) {
-        Object.entries(this.formArray).forEach(([key, value]) => {
-          this.arrayLabels.push(key);
-          this.form.addControl(key, this.fb.array([new FormGroup({})]));
-          if (value.controls) {
-            Object.keys(value.controls).forEach((control) => {
-              console.log(value.controls[control]);
-              this.getFormGroup(key).addControl(
-                value.controls[control].name,
-                this.fb.control({})
-              );
-            });
-          }
-        });
-      }
+      this.addControlsFromModel();
       this.form.markAsUntouched();
       this.form.markAsPristine();
       this.form.updateValueAndValidity();
-      console.log(this.formArrayLabel);
     });
   }
 
@@ -120,6 +104,7 @@ export class FormArrayComponent
   addNewControlsToArray(label: string) {
     console.log('Add controls to array');
     console.log(this.formArray[label].defaultControls);
+    console.log(label);
     this.formArray[label].defaultControls.forEach((id) => {
       this.formArray[label].controls.forEach((control) => {
         if (control.id === id) {
@@ -128,9 +113,30 @@ export class FormArrayComponent
           newControl.readonly = false;
           newControl.value = null;
           this.formArrayLabel = label;
-          this.newControlsArray.push(newControl);
+          this.getFormGroup(label).addControl(
+            newControl.name,
+            this.fb.control({})
+          );
         }
       });
     });
+  }
+
+  addControlsFromModel() {
+    if (this.formArray) {
+      Object.entries(this.formArray).forEach(([key, value]) => {
+        this.arrayLabels.push(key);
+        this.form.addControl(key, this.fb.array([new FormGroup({})]));
+        if (value.controls) {
+          Object.keys(value.controls).forEach((control) => {
+            console.log(value.controls[control]);
+            this.getFormGroup(key).addControl(
+              value.controls[control].name,
+              this.fb.control({})
+            );
+          });
+        }
+      });
+    }
   }
 }
