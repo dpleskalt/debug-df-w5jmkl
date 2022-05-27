@@ -17,10 +17,10 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import { FormStateService } from '../form-state.service';
 import { IArray } from '../models/array.model';
-import { Control } from '../models/controls.model';
+import { Control, IControl } from '../models/controls.model';
 
 @Component({
   selector: 'app-form-array',
@@ -51,25 +51,13 @@ export class FormArrayComponent
   onValidationChange: any = () => {};
 
   public initialValidity = false;
+  private newControlsArray: IControl[] = [];
+  private formArrayLabel: string;
 
   constructor(private fb: FormBuilder, private formState: FormStateService) {}
 
   ngOnInit() {
-    if (this.formArray) {
-      Object.entries(this.formArray).forEach(([key, value]) => {
-        this.arrayLabels.push(key);
-        this.form.addControl(key, this.fb.array([new FormGroup({})]));
-        if (value.controls) {
-          Object.keys(value.controls).forEach((control) => {
-            console.log(value.controls[control]);
-            this.getFormGroup(key).addControl(
-              value.controls[control].name,
-              this.fb.control({})
-            );
-          });
-        }
-      });
-    }
+    
 
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
@@ -81,9 +69,25 @@ export class FormArrayComponent
 
   ngAfterViewInit() {
     setTimeout(() => {
+      if (this.formArray) {
+        Object.entries(this.formArray).forEach(([key, value]) => {
+          this.arrayLabels.push(key);
+          this.form.addControl(key, this.fb.array([new FormGroup({})]));
+          if (value.controls) {
+            Object.keys(value.controls).forEach((control) => {
+              console.log(value.controls[control]);
+              this.getFormGroup(key).addControl(
+                value.controls[control].name,
+                this.fb.control({})
+              );
+            });
+          }
+        });
+      }
       this.form.markAsUntouched();
       this.form.markAsPristine();
       this.form.updateValueAndValidity();
+      console.log(this.formArrayLabel);
     });
   }
 
@@ -113,17 +117,18 @@ export class FormArrayComponent
       : null;
   }
 
-  addNewControlsToArray(arrayLabel: string) {
+  addNewControlsToArray(label: string) {
     console.log('Add controls to array');
-    console.log(this.formArray[arrayLabel].defaultControls);
-    this.formArray[arrayLabel].defaultControls.forEach((id) => {
-      this.formArray[arrayLabel].controls.forEach((control) => {
+    console.log(this.formArray[label].defaultControls);
+    this.formArray[label].defaultControls.forEach((id) => {
+      this.formArray[label].controls.forEach((control) => {
         if (control.id === id) {
           const newControl = new Control(control);
-          newControl.id = uuid();
+          newControl.id = uuidv4();
           newControl.readonly = false;
           newControl.value = null;
-          this.formArray[arrayLabel].controls.push(newControl);
+          this.formArrayLabel = label;
+          this.newControlsArray.push(newControl);
         }
       });
     });
