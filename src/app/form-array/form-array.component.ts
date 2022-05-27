@@ -18,6 +18,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { FormStateService } from '../form-state.service';
+import { IArray } from '../models/array.model';
 
 @Component({
   selector: 'app-form-array',
@@ -39,28 +40,7 @@ import { FormStateService } from '../form-state.service';
 export class FormArrayComponent
   implements ControlValueAccessor, OnInit, AfterViewInit
 {
-  @Input() formArray: {
-    [id: string]: {
-      addControls: boolean;
-      addControlsLabel: string;
-      defaultControls: string[];
-      groups: [];
-      arrays: [];
-      controls: [
-        {
-          id: string;
-          name: string;
-          label: string;
-          value: string;
-          display: boolean;
-          readonly: boolean;
-          control: string;
-          type: string;
-          validators: ValidatorFn[];
-        }
-      ];
-    };
-  };
+  @Input() formArray: IArray[];
 
   public form: FormGroup = new FormGroup({});
   public arrayLabels: string[] = [];
@@ -77,16 +57,18 @@ export class FormArrayComponent
       Object.entries(this.formArray).forEach(([key, value]) => {
         this.arrayLabels.push(key);
         this.form.addControl(key, this.fb.array([new FormGroup({})]));
-        if (value.controls.length) {
-          value.controls.forEach((control) => {
+        if (value.controls) {
+          Object.keys(value.controls).forEach((control) => {
+            console.log(value.controls[control])
             this.getFormGroup(key).addControl(
-              control.name,
+              value.controls[control].name,
               this.fb.control({})
             );
           });
         }
       });
     }
+ 
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
