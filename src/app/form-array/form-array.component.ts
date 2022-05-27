@@ -17,8 +17,10 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
+import { uuid } from 'uuidv4';
 import { FormStateService } from '../form-state.service';
 import { IArray } from '../models/array.model';
+import { Control } from '../models/controls.model';
 
 @Component({
   selector: 'app-form-array',
@@ -59,7 +61,7 @@ export class FormArrayComponent
         this.form.addControl(key, this.fb.array([new FormGroup({})]));
         if (value.controls) {
           Object.keys(value.controls).forEach((control) => {
-            console.log(value.controls[control])
+            console.log(value.controls[control]);
             this.getFormGroup(key).addControl(
               value.controls[control].name,
               this.fb.control({})
@@ -68,7 +70,7 @@ export class FormArrayComponent
         }
       });
     }
- 
+
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
@@ -117,7 +119,11 @@ export class FormArrayComponent
     this.formArray[arrayLabel].defaultControls.forEach((id) => {
       this.formArray[arrayLabel].controls.forEach((control) => {
         if (control.id === id) {
-          this.formArray[arrayLabel].controls.push(control);
+          const newControl = new Control(control);
+          newControl.id = uuid();
+          newControl.readonly = false;
+          newControl.value = null;
+          this.formArray[arrayLabel].controls.push(newControl);
         }
       });
     });
