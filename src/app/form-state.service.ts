@@ -6,7 +6,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class FormStateService {
   protected touched = new BehaviorSubject<boolean>(false);
+  protected cntAdded = new BehaviorSubject<boolean>(false);
   touchedState = this.touched.asObservable();
+  controlAdded = this.cntAdded.asObservable();
 
   setTouchedState(state: boolean) {
     if (this.touched.value === false) {

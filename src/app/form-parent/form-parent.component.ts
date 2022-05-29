@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { take } from 'rxjs';
 import { ModelService } from '../model.service';
@@ -8,13 +8,13 @@ import { ModelService } from '../model.service';
   templateUrl: './form-parent.component.html',
   styleUrls: ['./form-parent.component.css'],
 })
-export class FormParentComponent implements OnInit {
+export class FormParentComponent implements OnInit, AfterViewInit {
   public form: FormGroup = new FormGroup({});
   public model!: { groups: []; controls: [] };
   public groupLabels: string[] = [];
   public controlLabels: string[] = [];
 
-  constructor(private fb: FormBuilder, private modelService: ModelService) {}
+  constructor(private fb: FormBuilder, private modelService: ModelService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.modelService

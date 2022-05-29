@@ -55,7 +55,7 @@ export class FormArrayComponent
   private newControlsArray: IControl[] = [];
   private formArrayLabel: string;
 
-  constructor(private fb: FormBuilder, private formState: FormStateService, private appRef: ApplicationRef) {}
+  constructor(private fb: FormBuilder, private formState: FormStateService) {}
 
   ngOnInit() {
     this.formState.touchedState.subscribe(() => {
