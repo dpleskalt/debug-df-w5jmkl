@@ -60,6 +60,7 @@ export class FormArrayComponent
   ) {}
 
   ngOnInit() {
+    this.addControlsFromModel();
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
@@ -70,7 +71,6 @@ export class FormArrayComponent
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.addControlsFromModel();
       this.form.markAsUntouched();
       this.form.markAsPristine();
       this.form.updateValueAndValidity();
@@ -144,7 +144,7 @@ export class FormArrayComponent
   }
 
   removeControlFromArray(label: string, id: string, index: number) {
-    if(this.formArray[label].defaultControls.indexOf(id) === -1) {
+    if (this.formArray[label].defaultControls.indexOf(id) === -1) {
       this.formArray[label].controls.removeAt(index);
       this.cdr.detectChanges();
     }
