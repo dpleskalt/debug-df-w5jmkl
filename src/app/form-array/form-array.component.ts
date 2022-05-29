@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ApplicationRef,
   Component,
   forwardRef,
   Input,
@@ -54,7 +55,7 @@ export class FormArrayComponent
   private newControlsArray: IControl[] = [];
   private formArrayLabel: string;
 
-  constructor(private fb: FormBuilder, private formState: FormStateService) {}
+  constructor(private fb: FormBuilder, private formState: FormStateService, private appRef: ApplicationRef) {}
 
   ngOnInit() {
     this.formState.touchedState.subscribe(() => {
@@ -130,7 +131,6 @@ export class FormArrayComponent
               value.controls[control].name,
               this.fb.control({})
             );
-            this.form.updateValueAndValidity();
           });
         }
       });
