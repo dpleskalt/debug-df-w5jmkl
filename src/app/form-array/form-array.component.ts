@@ -53,7 +53,11 @@ export class FormArrayComponent
   private newControlsArray: IControl[] = [];
   private formArrayLabel: string;
 
-  constructor(private fb: FormBuilder, private formState: FormStateService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private fb: FormBuilder,
+    private formState: FormStateService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.formState.touchedState.subscribe(() => {
@@ -99,27 +103,6 @@ export class FormArrayComponent
       : null;
   }
 
-  addNewControlsToArray(label: string) {
-    this.formArray[label].defaultControls.forEach((id) => {
-      this.formArray[label].controls.forEach((control) => {
-        if (control.id === id) {
-          const newControl = new Control(control);
-          newControl.id = uuidv4();
-          newControl.readonly = false;
-          newControl.value = null;
-          this.formArrayLabel = label;
-          this.getFormGroup(label).addControl(
-            newControl.name,
-            this.fb.control({})
-          );
-          this.formArray[label].controls.push(newControl);
-          this.formState.setControlAdded(true);
-          this.cdr.detectChanges()
-        }
-      });
-    });
-  }
-
   addControlsFromModel() {
     if (this.formArray) {
       Object.entries(this.formArray).forEach(([key, value]) => {
@@ -134,6 +117,36 @@ export class FormArrayComponent
           });
         }
       });
+    }
+  }
+
+  addNewControlsToArray(label: string) {
+    this.formArray[label].defaultControls.forEach((id) => {
+      this.formArray[label].controls.forEach((control) => {
+        if (control.id === id) {
+          let newControl = new Control(control);
+          newControl = {
+            ...newControl,
+            id: uuidv4(),
+            readonly: false,
+            value: null,
+          };
+          this.formArrayLabel = label;
+          this.getFormGroup(label).addControl(
+            newControl.name,
+            this.fb.control({})
+          );
+          this.formArray[label].controls.push(newControl);
+          this.cdr.detectChanges();
+        }
+      });
+    });
+  }
+
+  removeControlFromArray(label: string, id: string, index: number) {
+    if(this.formArray[label].defaultControls.indexOf(id) === -1) {
+      this.formArray[label].controls.removeAt(index);
+      this.cdr.detectChanges();
     }
   }
 }

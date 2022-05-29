@@ -15,9 +15,7 @@ import {
   ValidationErrors,
   Validator,
   ValidatorFn,
-  Validators,
 } from '@angular/forms';
-import { skip } from 'rxjs';
 import { FormStateService } from '../form-state.service';
 
 @Component({
@@ -55,7 +53,6 @@ export class FormControlComponent
     this.fc = new FormControl('', {
       validators: this.control['validators'] as ValidatorFn[],
     });
-    this.formState.controlAdded.subscribe((state) => {});
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });

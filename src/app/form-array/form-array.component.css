@@ -3,7 +3,7 @@
   margin: 1rem;
 }
 
-.header-actions {
+.actions {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;

@@ -1,8 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { take } from 'rxjs';
 import { ModelService } from '../model.service';
@@ -51,6 +47,7 @@ export class FormParentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
+      console.log(this.form);
       this.form.markAsPristine();
       this.form.updateValueAndValidity();
     });
