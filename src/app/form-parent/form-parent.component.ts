@@ -20,12 +20,7 @@ export class FormParentComponent implements OnInit, AfterViewInit {
   public groupLabels: string[] = [];
   public controlLabels: string[] = [];
 
-  constructor(
-    private fb: FormBuilder,
-    private modelService: ModelService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private formState: FormStateService
-  ) {}
+  constructor(private fb: FormBuilder, private modelService: ModelService) {}
 
   ngOnInit() {
     this.modelService
