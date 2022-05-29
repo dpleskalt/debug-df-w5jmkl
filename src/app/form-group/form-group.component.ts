@@ -83,7 +83,6 @@ export class FormGroupComponent
         this.form.addControl(control.name, this.fb.control({}));
       });
     }
-    this.form.updateValueAndValidity();
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
@@ -95,6 +94,7 @@ export class FormGroupComponent
   ngAfterViewInit() {
     setTimeout(() => {
       this.form.markAsPristine();
+      this.form.updateValueAndValidity();
     });
   }
 

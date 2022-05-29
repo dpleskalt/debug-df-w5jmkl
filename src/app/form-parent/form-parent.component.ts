@@ -48,6 +48,7 @@ export class FormParentComponent implements OnInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.form.markAsPristine();
+      this.form.updateValueAndValidity();
     });
   }
 
