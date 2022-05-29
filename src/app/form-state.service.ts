@@ -15,4 +15,10 @@ export class FormStateService {
       this.touched.next(state);
     }
   }
+
+  setControlAdded(state: boolean) {
+    if(this.cntAdded.value === false) {
+      this.cntAdded.next(state);
+    }
+  }
 }

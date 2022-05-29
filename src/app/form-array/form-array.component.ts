@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   ApplicationRef,
+  ChangeDetectorRef,
   Component,
   forwardRef,
   Input,
@@ -55,7 +56,7 @@ export class FormArrayComponent
   private newControlsArray: IControl[] = [];
   private formArrayLabel: string;
 
-  constructor(private fb: FormBuilder, private formState: FormStateService) {}
+  constructor(private fb: FormBuilder, private formState: FormStateService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.formState.touchedState.subscribe(() => {
@@ -115,6 +116,8 @@ export class FormArrayComponent
             this.fb.control({})
           );
           this.formArray[label].controls.push(newControl);
+          this.formState.setControlAdded(true);
+          this.cdr.detectChanges()
         }
       });
     });

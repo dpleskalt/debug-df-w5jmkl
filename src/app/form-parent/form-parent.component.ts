@@ -1,6 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { take } from 'rxjs';
+import { FormStateService } from '../form-state.service';
 import { ModelService } from '../model.service';
 
 @Component({
@@ -14,7 +20,12 @@ export class FormParentComponent implements OnInit, AfterViewInit {
   public groupLabels: string[] = [];
   public controlLabels: string[] = [];
 
-  constructor(private fb: FormBuilder, private modelService: ModelService, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private fb: FormBuilder,
+    private modelService: ModelService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private formState: FormStateService
+  ) {}
 
   ngOnInit() {
     this.modelService
