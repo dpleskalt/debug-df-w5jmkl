@@ -51,16 +51,16 @@ export class FormControlComponent
     this.fc = new FormControl('', {
       validators: this.control['validators'] as ValidatorFn[],
     });
-    this.formState.touchedState.subscribe(() => {
-      this.onTouched();
-    });
-    this.fc.valueChanges.subscribe((val) => {
-      this.onChanged(val);
-    });
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
+      this.formState.touchedState.subscribe(() => {
+        this.onTouched();
+      });
+      this.fc.valueChanges.subscribe((val) => {
+        this.onChanged(val);
+      });
       this.fc.updateValueAndValidity();
     });
   }

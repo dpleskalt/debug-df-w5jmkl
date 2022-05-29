@@ -117,6 +117,7 @@ export class FormArrayComponent
             newControl.name,
             this.fb.control({})
           );
+          this.formArray[label].controls.push(newControl);
         }
       });
     });
