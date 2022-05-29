@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ApplicationRef,
   ChangeDetectorRef,
   Component,
   forwardRef,
@@ -12,12 +11,10 @@ import {
   ControlValueAccessor,
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
-  ValidatorFn,
 } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { FormStateService } from '../form-state.service';

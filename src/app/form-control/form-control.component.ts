@@ -46,18 +46,16 @@ export class FormControlComponent
   public onChanged: any = () => {};
   public onTouched: any = () => {};
 
-  constructor(private formState: FormStateService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private formState: FormStateService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.fc = new FormControl('', {
       validators: this.control['validators'] as ValidatorFn[],
     });
-    this.formState.controlAdded.subscribe((state) => {
-      if (state === true) {
-        this.formState.setControlAdded(false);
-        this.cdr.detectChanges();
-      }
-    });
+    this.formState.controlAdded.subscribe((state) => {});
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
