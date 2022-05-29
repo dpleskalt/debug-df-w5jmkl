@@ -67,7 +67,6 @@ export class FormArrayComponent
 
   ngAfterViewInit() {
     setTimeout(() => {
-      console.log(this.form);
       this.addControlsFromModel();
       this.form.markAsUntouched();
       this.form.markAsPristine();
