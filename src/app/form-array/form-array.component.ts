@@ -57,7 +57,6 @@ export class FormArrayComponent
   constructor(private fb: FormBuilder, private formState: FormStateService) {}
 
   ngOnInit() {
-    console.log(this.formArray);
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
@@ -68,6 +67,7 @@ export class FormArrayComponent
 
   ngAfterViewInit() {
     setTimeout(() => {
+      console.log(this.form);
       this.addControlsFromModel();
       this.form.markAsUntouched();
       this.form.markAsPristine();
@@ -102,9 +102,6 @@ export class FormArrayComponent
   }
 
   addNewControlsToArray(label: string) {
-    console.log('Add controls to array');
-    console.log(this.formArray[label].defaultControls);
-    console.log(label);
     this.formArray[label].defaultControls.forEach((id) => {
       this.formArray[label].controls.forEach((control) => {
         if (control.id === id) {
@@ -130,11 +127,11 @@ export class FormArrayComponent
         this.form.addControl(key, this.fb.array([new FormGroup({})]));
         if (value.controls) {
           Object.keys(value.controls).forEach((control) => {
-            console.log(value.controls[control]);
             this.getFormGroup(key).addControl(
               value.controls[control].name,
               this.fb.control({})
             );
+            this.form.updateValueAndValidity();
           });
         }
       });
