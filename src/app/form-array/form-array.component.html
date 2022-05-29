@@ -15,7 +15,7 @@
       <div formGroupName="0">
         <ng-container *ngFor="let control of formArray[label].controls">
             <app-form-control
-              [formControlName]="control.name"
+              [formControlName]="control.id"
               [control]="control"
             ></app-form-control>
         </ng-container>

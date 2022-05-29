@@ -44,10 +44,7 @@ export class FormControlComponent
   public onChanged: any = () => {};
   public onTouched: any = () => {};
 
-  constructor(
-    private formState: FormStateService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private formState: FormStateService) {}
 
   ngOnInit() {
     this.fc = new FormControl('', {

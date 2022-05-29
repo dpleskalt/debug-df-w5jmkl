@@ -80,7 +80,7 @@ export class FormGroupComponent
     }
     if (this.group.controls.length) {
       this.group.controls.forEach((control) => {
-        this.form.addControl(control.name, this.fb.control({}));
+        this.form.addControl(control.id, this.fb.control({}));
       });
     }
     this.formState.touchedState.subscribe(() => {

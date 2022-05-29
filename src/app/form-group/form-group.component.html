@@ -3,7 +3,7 @@
   <form [formGroup]="form">
     <ng-container *ngFor="let control of group.controls">
       <app-form-control
-        [formControlName]="control.name"
+        [formControlName]="control.id"
         [control]="control"
       ></app-form-control>
     </ng-container>

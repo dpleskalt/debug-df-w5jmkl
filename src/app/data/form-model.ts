@@ -17,7 +17,7 @@ export const CFormModel = {
                           arrays: [],
                           controls: [
                             {
-                              id: '',
+                              id: 'e3934092-0349-46a5-8ff4-1fd1f6533816',
                               name: 'lijecnikId',
                               label: 'ID',
                               value: 'e5a77ede-abba-43ea-9df5-080a344755ea',
@@ -28,7 +28,7 @@ export const CFormModel = {
                               validators: [],
                             },
                             {
-                              id: '',
+                              id: '9dfaf6bb-500f-4a20-8208-7342fd42dac4',
                               name: 'lijecnikIme',
                               label: 'Ime',
                               value: 'Ivan',
@@ -39,7 +39,7 @@ export const CFormModel = {
                               validators: [Validators.required],
                             },
                             {
-                              id: '',
+                              id: '6449f9ad-1228-4e84-b290-1768fa0852ca',
                               name: 'lijecnikPrezime',
                               label: 'Prezime',
                               value: 'Ivić',
@@ -56,7 +56,7 @@ export const CFormModel = {
                     arrays: [],
                     controls: [
                       {
-                        id: '',
+                        id: 'e7cac7d2-944d-4d41-8d8a-b71788592bb9',
                         name: 'odjelId',
                         label: 'ID',
                         value: 'd458ad2a-546a-4aa6-aeab-4e5e9b7968c0',
@@ -67,7 +67,7 @@ export const CFormModel = {
                         validators: [Validators.required],
                       },
                       {
-                        id: '',
+                        id: '0a1182a1-8800-4ba4-bbaf-ddf78e82d37b',
                         name: 'odjelNaziv',
                         label: 'Naziv',
                         value: 'Intezivna njega',
@@ -84,7 +84,7 @@ export const CFormModel = {
               arrays: [],
               controls: [
                 {
-                  id: '',
+                  id: '6c5e7e24-7f02-49f5-8ba5-c751728f3839',
                   name: 'ustanovaId',
                   label: 'ID',
                   value: 'f6251c30-0870-49a1-a7c7-6deb0cc22c48',
@@ -95,7 +95,7 @@ export const CFormModel = {
                   validators: [Validators.required],
                 },
                 {
-                  id: '',
+                  id: 'bcded8bc-a9c9-4efa-b0a5-353f7639897f',
                   name: 'ustanovaNaziv',
                   label: 'Naziv',
                   value: 'Opća bolnica',
@@ -112,7 +112,7 @@ export const CFormModel = {
         arrays: [],
         controls: [
           {
-            id: '',
+            id: '930e32f0-05e4-4209-9072-5e8cc0c39412',
             name: 'susretId',
             label: 'ID',
             value: 'b956c746-ff6b-4ada-8997-f68680d8b774',
@@ -123,7 +123,7 @@ export const CFormModel = {
             validators: [Validators.required],
           },
           {
-            id: '',
+            id: '150d15d1-15a8-4664-8669-0805527e456f',
             name: 'susretPocetak',
             label: 'Datum i vrijeme početka',
             value: '2022-04-10T13:40:00',
@@ -134,7 +134,7 @@ export const CFormModel = {
             validators: [Validators.required],
           },
           {
-            id: '',
+            id: '34245b27-0edf-419a-8b08-d29f22d9b5a9',
             name: 'susretZavrsetak',
             label: 'Datum i vrijeme završetka',
             value: '',
@@ -156,7 +156,7 @@ export const CFormModel = {
               arrays: [],
               controls: [
                 {
-                  id: '',
+                  id: 'f85d06ae-85fc-410d-a74f-90d4f7845062',
                   name: 'pacijentOib',
                   label: 'OIB',
                   value: '45678901234',
@@ -167,7 +167,7 @@ export const CFormModel = {
                   validators: [Validators.required],
                 },
                 {
-                  id: '',
+                  id: '93616ee9-19e1-4a48-abb3-992bc66d8cfd',
                   name: 'pacijentMbo',
                   label: 'MBO',
                   value: '123456789',
@@ -184,7 +184,7 @@ export const CFormModel = {
         arrays: [],
         controls: [
           {
-            id: '',
+            id: '4fd971a6-15b9-4777-a69e-129f2258577b',
             name: 'pacijentId',
             label: 'ID',
             value: '45d62772-1d37-430c-9bdd-33ed4fee6a6d',
@@ -195,7 +195,7 @@ export const CFormModel = {
             validators: [Validators.required],
           },
           {
-            id: '',
+            id: '1779d072-6cb7-4f94-b80d-14b3d52f0009',
             name: 'pacijentIme',
             label: 'ime',
             value: 'Pero',
@@ -206,7 +206,7 @@ export const CFormModel = {
             validators: [Validators.required],
           },
           {
-            id: '',
+            id: '5d94c6f8-4936-40dc-95dd-570374ab4121',
             name: 'pacijentPrezime',
             label: 'Prezime',
             value: 'Perić',
@@ -217,7 +217,7 @@ export const CFormModel = {
             validators: [Validators.required],
           },
           {
-            id: '',
+            id: '6a4b1103-f283-4fd1-b96d-cbda8b5a9730',
             name: 'pacijentDatumRodenja',
             label: 'Datum rođenja',
             value: '1950-01-01T00:01',

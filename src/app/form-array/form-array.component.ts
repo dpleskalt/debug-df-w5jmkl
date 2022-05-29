@@ -111,7 +111,7 @@ export class FormArrayComponent
         if (value.controls) {
           Object.keys(value.controls).forEach((control) => {
             this.getFormGroup(key).addControl(
-              value.controls[control].name,
+              value.controls[control].id,
               this.fb.control({})
             );
           });
@@ -133,7 +133,7 @@ export class FormArrayComponent
           };
           this.formArrayLabel = label;
           this.getFormGroup(label).addControl(
-            newControl.name,
+            newControl.id,
             this.fb.control({})
           );
           this.formArray[label].controls.push(newControl);
