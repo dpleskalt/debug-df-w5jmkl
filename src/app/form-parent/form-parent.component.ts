@@ -23,18 +23,6 @@ export class FormParentComponent implements OnInit, AfterViewInit {
       .pipe(take(1))
       .subscribe((m) => {
         this.model = m;
-        /* if (this.model.groups.length) {
-          this.model.groups.forEach((group) => {
-            this.groupLabels.push(Object.keys(group)[0]);
-            this.form.addControl(Object.keys(group)[0], this.fb.control({}));
-          });
-        }
-        if (this.model.controls.length) {
-          this.model.groups.forEach((group) => {
-            this.controlLabels.push(Object.keys(group)[0]);
-            this.form.addControl(Object.keys(group)[0], this.fb.control({}));
-          });
-        } */
         if (this.model.groups.length) {
           this.model.groups.forEach((group) => {
             this.groupLabels.push(Object.keys(group)[0]);
@@ -56,17 +44,8 @@ export class FormParentComponent implements OnInit, AfterViewInit {
       });
   }
 
-  isObject(obj: any): boolean {
-    return typeof obj === 'object';
-  }
-
-  isArray(obj: any): boolean {
-    return Array.isArray(obj);
-  }
-
   ngAfterViewInit() {
     setTimeout(() => {
-      console.log(this.form);
       this.form.markAsPristine();
       this.form.updateValueAndValidity();
     });

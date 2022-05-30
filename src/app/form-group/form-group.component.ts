@@ -13,7 +13,6 @@ import {
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
-  ValidatorFn,
 } from '@angular/forms';
 import { FormStateService } from '../form-state.service';
 import { IArray } from '../models/array.model';
@@ -47,14 +46,13 @@ export class FormGroupComponent
   public groupLabels: string[] = [];
   public arrayLabels: string[] = [];
   public index = 0;
-  public onChanged: any = () => {};
-  public onTouched: any = () => {};
-  public onValidationChange: any = () => {};
   public groups: IGroup[];
   public arrays: IArray[];
   public controls: IControl[];
-
   public initialValidity = false;
+
+  public onChanged: any = () => {};
+  public onTouched: any = () => {};
 
   constructor(private fb: FormBuilder, private formState: FormStateService) {}
 
@@ -110,16 +108,10 @@ export class FormGroupComponent
   registerOnTouched(fn: () => void) {
     this.onTouched = fn;
   }
+
   validate(control: AbstractControl): ValidationErrors {
     return !this.form.valid
       ? { invalidGroup: { valid: false, message: 'Group is invalid' } }
       : null;
-  }
-  isObject(obj: any): boolean {
-    return typeof obj === 'object';
-  }
-
-  isArray(obj: any): boolean {
-    return Array.isArray(obj);
   }
 }
