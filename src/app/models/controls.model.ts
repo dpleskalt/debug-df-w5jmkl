@@ -12,7 +12,7 @@ export interface IControl {
   validators: ValidatorFn[];
 }
 
-export class Control {
+export class CControl {
   id: string;
   name: string;
   label: string;

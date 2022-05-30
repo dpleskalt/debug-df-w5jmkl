@@ -19,8 +19,8 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { FormStateService } from '../form-state.service';
 import { IArray } from '../models/array.model';
-import { Control, IControl } from '../models/controls.model';
-import { CGroup, IGroup } from '../models/group.model';
+import { CControl, IControl } from '../models/controls.model';
+import { IGroup } from '../models/group.model';
 
 @Component({
   selector: 'app-form-array',
@@ -178,7 +178,7 @@ export class FormArrayComponent
                 display: true,
                 value: null,
               };
-              newControl.push(new Control(cnt));
+              newControl.push(new CControl(cnt));
               this.addFormGroupToArray(key, index, null, newControl);
               if (!this.formArray[key].groups[index]) {
                 this.formArray[key].groups.push({
