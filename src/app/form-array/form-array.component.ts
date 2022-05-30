@@ -165,7 +165,6 @@ export class FormArrayComponent
   addNewControls(key: string) {
     const index = this.formArray[key].groups.length;
     this.formArray[key].defaultControls.forEach((id) => {
-      console.log(id);
       Object.entries(this.formArray[key].groups[0]).forEach(
         ([label, value]) => {
           const initialControls = value.controls as unknown as IControl[];
@@ -185,11 +184,11 @@ export class FormArrayComponent
                 this.formArray[key].groups.push({
                   [label]: { groups: [], arrays: [], controls: [] },
                 });
-                console.log(this.formArray[key].groups);
                 this.formArray[key].groups[index][label].controls.push(cnt);
                 this.arrayOfIndexes.push(index);
                 this.cdr.detectChanges();
               } else {
+                this.formArray[key].groups[index][label].controls.push(cnt);
                 this.cdr.detectChanges();
               }
             }
