@@ -44,6 +44,7 @@ export class FormArrayComponent
   @Input() formArray: IArray[];
 
   public form: FormGroup = new FormGroup({});
+  public fArray: FormArray = new FormArray([]);
   public arrayLabels: string[] = [];
   onChanged: any = () => {};
   onTouched: any = () => {};
@@ -61,6 +62,7 @@ export class FormArrayComponent
 
   ngOnInit() {
     this.addControlsFromModel();
+    this.addControlsFromModelToArray();
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
@@ -119,6 +121,25 @@ export class FormArrayComponent
       });
     }
   }
+
+  // -------
+  addControlsFromModelToArray() {
+    if (this.formArray) {
+      Object.values(this.formArray).forEach((value) => {
+        this.fArray.push(new FormGroup({}));
+        if (value.controls) {
+          const index = this.fArray.length - 1;
+          const fGroup = this.fArray.controls[index] as FormGroup;
+          console.log(index, fGroup);
+          Object.keys(value.controls).forEach((key) => {
+            fGroup.addControl(value.controls[key].id, this.fb.control({}));
+          });
+        }
+      });
+      console.log(this.fArray);
+    }
+  }
+  // ---------
 
   addNewControlsToArray(label: string) {
     this.formArray[label].defaultControls.forEach((id) => {
