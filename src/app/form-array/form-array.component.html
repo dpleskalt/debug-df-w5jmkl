@@ -27,7 +27,7 @@
 <form [formGroup]="form">
   <ng-container *ngFor="let label of arrayLabels">
     <mat-card [formArrayName]="label" class="card-array">
-      <div class="actions">
+      <div class="actions space-between">
         <div class="section-label">{{ label }}</div>
         <button
           type="button"
@@ -39,15 +39,26 @@
         </button>
       </div>
       <ng-container *ngFor="let i of arrayOfIndexes">
-        <mat-card-content [formGroupName]="i">
-          <ng-container
-            *ngFor="let control of formArray[label].groups[i].controls"
+        <mat-card-content class="actions flex-start">
+          <div [formGroupName]="i">
+            <ng-container
+              *ngFor="let control of formArray[label].groups[i].controls"
+            >
+              <app-form-control
+                [formControlName]="control.id"
+                [control]="control"
+              ></app-form-control>
+            </ng-container>
+          </div>
+          <button
+            type="button"
+            mat-mini-fab
+            color="warn"
+            (click)="addNewControls(label)"
+            style="margin-top: 0.5rem"
           >
-            <app-form-control
-              [formControlName]="control.id"
-              [control]="control"
-            ></app-form-control>
-          </ng-container>
+            <mat-icon>remove</mat-icon>
+          </button>
         </mat-card-content>
       </ng-container>
     </mat-card>

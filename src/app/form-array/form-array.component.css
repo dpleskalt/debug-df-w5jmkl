@@ -1,12 +1,19 @@
 .card-array {
-  background-color: #8FDDDF;
+  background-color: #8fdddf;
   margin: 1rem;
 }
 
 .actions {
   display: flex;
   flex-flow: row wrap;
+}
+
+.space-between {
   justify-content: space-between;
+}
+
+.flex-start {
+  justify-content: flex-start;
 }
 
 .section-label {

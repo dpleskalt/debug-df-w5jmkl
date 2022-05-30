@@ -140,7 +140,6 @@ export class FormArrayComponent
       const arr = this.form.get(key) as FormArray;
       if (!arr.controls[index]) {
         arr.push(new FormGroup({}));
-        this.arrayOfIndexes.push(index);
       }
       this.addControlsToGroup(arr, index, control);
     }
@@ -160,9 +159,10 @@ export class FormArrayComponent
         if (control.id === id) {
           let newControl: IControl[] = [];
           const cnt = {
-            ...newControl,
+            ...control,
             id: uuidv4(),
             readonly: false,
+            display: true,
             value: null,
           };
           newControl.push(new Control(cnt));
@@ -170,6 +170,7 @@ export class FormArrayComponent
           if (!this.formArray[key].groups[index]) {
             this.formArray[key].groups[index] = new Group();
             this.formArray[key].groups[index].controls.push(cnt);
+            this.arrayOfIndexes.push(index);
             this.cdr.detectChanges();
           } else {
             this.formArray[key].groups[index].controls.push(cnt);
