@@ -15,7 +15,7 @@
       ></app-form-group>
     </ng-container>
     <ng-container *ngFor="let item of group.arrays; let i = index">
-      <app-form-array [formControlName]="arrayLabels[i]" [formArray]="item"></app-form-array>
+      <app-form-array [formControlName]="i" [formArray]="item"></app-form-array>
     </ng-container>
   </form>
 </mat-card>

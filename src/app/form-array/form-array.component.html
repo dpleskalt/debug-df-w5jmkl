@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<!-- <form [formGroup]="form">
   <ng-container *ngFor="let label of arrayLabels">
     <mat-card [formArrayName]="label" class="card-array">
       <div class="actions">
@@ -20,6 +20,36 @@
             ></app-form-control>
         </ng-container>
       </div>
+    </mat-card>
+  </ng-container>
+</form> -->
+
+<form [formGroup]="form">
+  <ng-container *ngFor="let label of arrayLabels">
+    <mat-card [formArrayName]="label" class="card-array">
+      <div class="actions">
+        <div class="section-label">{{ label }}</div>
+        <button
+          type="button"
+          mat-mini-fab
+          color="accent"
+          (click)="addNewControls(label)"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <ng-container *ngFor="let i of arrayOfIndexes">
+        <mat-card-content [formGroupName]="i">
+          <ng-container
+            *ngFor="let control of formArray[label].groups[i].controls"
+          >
+            <app-form-control
+              [formControlName]="control.id"
+              [control]="control"
+            ></app-form-control>
+          </ng-container>
+        </mat-card-content>
+      </ng-container>
     </mat-card>
   </ng-container>
 </form>

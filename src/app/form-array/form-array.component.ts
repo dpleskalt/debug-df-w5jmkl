@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FormStateService } from '../form-state.service';
 import { IArray } from '../models/array.model';
 import { Control, IControl } from '../models/controls.model';
+import { IGroup } from '../models/group.model';
 
 @Component({
   selector: 'app-form-array',
@@ -44,8 +45,8 @@ export class FormArrayComponent
   @Input() formArray: IArray[];
 
   public form: FormGroup = new FormGroup({});
-  public fArray: FormArray = new FormArray([]);
   public arrayLabels: string[] = [];
+  public arrayOfIndexes: number[] = [];
   onChanged: any = () => {};
   onTouched: any = () => {};
   onValidationChange: any = () => {};
@@ -61,8 +62,7 @@ export class FormArrayComponent
   ) {}
 
   ngOnInit() {
-    this.addControlsFromModel();
-    this.addControlsFromModelToArray();
+    this.addFormArray();
     this.formState.touchedState.subscribe(() => {
       this.onTouched();
     });
@@ -77,11 +77,6 @@ export class FormArrayComponent
       this.form.markAsPristine();
       this.form.updateValueAndValidity();
     });
-  }
-
-  getFormGroup(label: string): FormGroup {
-    const arr = this.form.get(label) as FormArray;
-    return arr.controls[0] as FormGroup;
   }
 
   writeValue() {
@@ -105,7 +100,79 @@ export class FormArrayComponent
       : null;
   }
 
-  addControlsFromModel() {
+  addFormArray() {
+    if (this.formArray) {
+      Object.entries(this.formArray).forEach(([key, value]) => {
+        this.arrayLabels.push(key);
+        this.form.addControl(key, this.fb.array([]));
+        console.log(this.formArray[key]);
+        if (value.groups) {
+          const index = 0;
+          this.addFormGroupToArray(
+            key,
+            index,
+            value.groups as unknown as IGroup[]
+          );
+        }
+      });
+    }
+  }
+
+  addFormGroupToArray(key: string, index: number, groups?: IGroup[], control?: IControl[]) {
+    if(groups) {
+      groups.forEach((group) => {
+        const arr = this.form.get(key) as FormArray;
+        arr.push(new FormGroup({}));
+        this.addControlsToGroup(
+          arr,
+          index,
+          group.controls as unknown as IControl[]
+        );
+        this.arrayOfIndexes.push(index);
+        index += 1;
+      });
+    } else {
+      const arr = this.form.get(key) as FormArray;
+      if(!arr.controls[index]) {
+        arr.push(new FormGroup({}));
+        this.arrayOfIndexes.push(index);
+      }
+      this.addControlsToGroup(
+        arr,
+        index,
+        control
+      );
+    }
+  }
+
+  addControlsToGroup(arr: FormArray, index: number, controls: IControl[]) {
+    const group = arr.controls[index] as FormGroup;
+    controls.forEach((control) => {
+      group.addControl(control.id, this.fb.control({}));
+    });
+  }
+
+  addNewControls(key: string) {
+    this.formArray[key].defaultControls.forEach((id) => {
+      this.formArray[key].groups[0].controls.forEach((control) => {
+        if (control.id === id) {
+          let newControl: IControl[] = [];
+          const cnt = {
+            ...newControl,
+            id: uuidv4(),
+            readonly: false,
+            value: null,
+          };
+          newControl.push(new Control(cnt));
+          console.log(this.formArray[key].groups.length);
+          this.addFormGroupToArray(key, this.formArray[key].groups.length, null, newControl);
+          this.cdr.detectChanges();
+        }
+      });
+    });
+  }
+
+  /* addControlsFromModel() {
     if (this.formArray) {
       Object.entries(this.formArray).forEach(([key, value]) => {
         this.arrayLabels.push(key);
@@ -122,24 +189,21 @@ export class FormArrayComponent
     }
   }
 
-  // -------
   addControlsFromModelToArray() {
     if (this.formArray) {
-      Object.values(this.formArray).forEach((value) => {
+      Object.entries(this.formArray).forEach(([key, value]) => {
         this.fArray.push(new FormGroup({}));
+        this.arrayLabels.push(key);
         if (value.controls) {
           const index = this.fArray.length - 1;
           const fGroup = this.fArray.controls[index] as FormGroup;
-          console.log(index, fGroup);
           Object.keys(value.controls).forEach((key) => {
             fGroup.addControl(value.controls[key].id, this.fb.control({}));
           });
         }
       });
-      console.log(this.fArray);
     }
   }
-  // ---------
 
   addNewControlsToArray(label: string) {
     this.formArray[label].defaultControls.forEach((id) => {
@@ -164,10 +228,12 @@ export class FormArrayComponent
     });
   }
 
+  addNewControlsToArray2() {}
+
   removeControlFromArray(label: string, id: string, index: number) {
     if (this.formArray[label].defaultControls.indexOf(id) === -1) {
       this.formArray[label].controls.removeAt(index);
       this.cdr.detectChanges();
     }
-  }
+  } */
 }

@@ -57,6 +57,7 @@ export class FormGroupComponent
   public form: FormGroup = new FormGroup({});
   public groupLabels: string[] = [];
   public arrayLabels: string[] = [];
+  public index = 0;
   public onChanged: any = () => {};
   public onTouched: any = () => {};
   public onValidationChange: any = () => {};
@@ -73,9 +74,12 @@ export class FormGroupComponent
       });
     }
     if (this.group.arrays.length) {
+      this.index = 0;
       this.group.arrays.forEach((array) => {
-        this.arrayLabels.push(Object.keys(array)[0]);
-        this.form.addControl(Object.keys(array)[0], this.fb.control({}));
+        // this.arrayLabels.push(Object.keys(array)[0]);
+        // this.form.addControl(Object.keys(array)[0], this.fb.control({}));
+        this.form.addControl(this.index.toString(), this.fb.control({}));
+        this.index += 1;
       });
     }
     if (this.group.controls.length) {
