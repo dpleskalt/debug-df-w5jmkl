@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   forwardRef,
   Input,
@@ -17,6 +16,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { FormStateService } from '../form-state.service';
+import { IControl } from '../models/controls.model';
 
 @Component({
   selector: 'app-form-control',
@@ -38,7 +38,7 @@ import { FormStateService } from '../form-state.service';
 export class FormControlComponent
   implements ControlValueAccessor, Validator, OnInit, AfterViewInit
 {
-  @Input() control!: {};
+  @Input() control: IControl;
 
   public fc!: FormControl;
   public onChanged: any = () => {};

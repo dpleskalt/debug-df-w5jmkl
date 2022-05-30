@@ -48,13 +48,10 @@ export class FormArrayComponent
   public arrayLabels: string[] = [];
   public groupsArray: IGroup[];
   public arrayOfIndexes: number[] = [];
+  public initialValidity = false;
+
   onChanged: any = () => {};
   onTouched: any = () => {};
-  onValidationChange: any = () => {};
-
-  public initialValidity = false;
-  private newControlsArray: IControl[] = [];
-  private formArrayLabel: string;
 
   constructor(
     private fb: FormBuilder,
@@ -99,14 +96,6 @@ export class FormArrayComponent
     return !this.form.valid
       ? { invalidGroup: { valid: false, message: 'Group is invalid' } }
       : null;
-  }
-
-  getControls(key: string, index: number) {
-    let controls: IControl[];
-    Object.values(this.formArray[key].groups[index]).forEach((value) => {
-      controls = value.controls as unknown as IControl[];
-    });
-    return controls;
   }
 
   addFormArray() {
