@@ -1,5 +1,11 @@
 <mat-card class="card-parent mat-elevation-z8">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <ng-container *ngFor="let control of model.controls">
+      <app-form-control
+        [formControlName]="control.id"
+        [control]="control"
+      ></app-form-control>
+    </ng-container>
     <ng-container *ngFor="let label of groupLabels">
       <app-form-group
         [formControlName]="label"
@@ -7,19 +13,9 @@
         [name]="label"
       ></app-form-group>
     </ng-container>
-    <!-- <ng-container *ngFor="let label of controlLabels">
-      <app-form-control
-        [formControlName]="label"
-        [controlLabel]="label"
-        [controlValue]="label"
-      ></app-form-control>
-    </ng-container> -->
-    <!-- <app-form-array
-      *ngIf="isArray(item.value)"
-      [formControlName]="item.key"
-      [array]="item.value"
-    ></app-form-array> -->
-
+    <ng-container *ngFor="let item of model.arrays; let i = index">
+      <app-form-array [formControlName]="i" [formArray]="item"></app-form-array>
+    </ng-container>
     <button
       matButton
       mat-raised-button

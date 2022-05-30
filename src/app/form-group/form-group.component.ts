@@ -13,9 +13,12 @@ import {
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
-  ValidatorFn
+  ValidatorFn,
 } from '@angular/forms';
 import { FormStateService } from '../form-state.service';
+import { IArray } from '../models/array.model';
+import { IControl } from '../models/controls.model';
+import { IGroup } from '../models/group.model';
 
 @Component({
   selector: 'app-form-group',
@@ -37,22 +40,8 @@ import { FormStateService } from '../form-state.service';
 export class FormGroupComponent
   implements ControlValueAccessor, OnInit, AfterViewInit
 {
-  @Input() group!: {
-    groups: [];
-    arrays: [];
-    controls: [{
-      id: string,
-      name: string,
-      label: string,
-      value: string,
-      display: boolean,
-      readonly: boolean,
-      control: string,
-      type: string,
-      validators: ValidatorFn[],
-    }];
-  };
-  @Input() name!: string;
+  @Input() group: IGroup;
+  @Input() name: string;
 
   public form: FormGroup = new FormGroup({});
   public groupLabels: string[] = [];
@@ -61,29 +50,33 @@ export class FormGroupComponent
   public onChanged: any = () => {};
   public onTouched: any = () => {};
   public onValidationChange: any = () => {};
+  public groups: IGroup[];
+  public arrays: IArray[];
+  public controls: IControl[];
 
   public initialValidity = false;
 
   constructor(private fb: FormBuilder, private formState: FormStateService) {}
 
   ngOnInit() {
-    if (this.group.groups.length) {
-      this.group.groups.forEach((group) => {
+    this.groups = this.group.groups as unknown as IGroup[];
+    if (this.groups.length) {
+      this.groups.forEach((group) => {
         this.groupLabels.push(Object.keys(group)[0]);
         this.form.addControl(Object.keys(group)[0], this.fb.control({}));
       });
     }
-    if (this.group.arrays.length) {
+    this.arrays = this.group.arrays as unknown as IArray[];
+    if (this.arrays.length) {
       this.index = 0;
-      this.group.arrays.forEach((array) => {
-        // this.arrayLabels.push(Object.keys(array)[0]);
-        // this.form.addControl(Object.keys(array)[0], this.fb.control({}));
+      this.arrays.forEach(() => {
         this.form.addControl(this.index.toString(), this.fb.control({}));
         this.index += 1;
       });
     }
-    if (this.group.controls.length) {
-      this.group.controls.forEach((control) => {
+    this.controls = this.group.controls as unknown as IControl[];
+    if (this.controls.length) {
+      this.controls.forEach((control) => {
         this.form.addControl(control.id, this.fb.control({}));
       });
     }

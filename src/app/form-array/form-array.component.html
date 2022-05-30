@@ -41,9 +41,7 @@
       <ng-container *ngFor="let i of arrayOfIndexes">
         <mat-card-content class="actions flex-start">
           <div [formGroupName]="i">
-            <ng-container
-              *ngFor="let control of formArray[label].groups[i].controls"
-            >
+            <ng-container *ngFor="let control of getControls(label, i)">
               <app-form-control
                 [formControlName]="control.id"
                 [control]="control"
@@ -54,8 +52,9 @@
             type="button"
             mat-mini-fab
             color="warn"
-            (click)="addNewControls(label)"
+            (click)="removeControls(label, i)"
             style="margin-top: 0.5rem"
+            [ngStyle]="{ display: i !== 0 ? 'inline-block' : 'none' }"
           >
             <mat-icon>remove</mat-icon>
           </button>
