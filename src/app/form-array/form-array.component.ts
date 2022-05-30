@@ -20,7 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FormStateService } from '../form-state.service';
 import { IArray } from '../models/array.model';
 import { Control, IControl } from '../models/controls.model';
-import { IGroup } from '../models/group.model';
+import { Group, IGroup } from '../models/group.model';
 
 @Component({
   selector: 'app-form-array',
@@ -118,8 +118,13 @@ export class FormArrayComponent
     }
   }
 
-  addFormGroupToArray(key: string, index: number, groups?: IGroup[], control?: IControl[]) {
-    if(groups) {
+  addFormGroupToArray(
+    key: string,
+    index: number,
+    groups?: IGroup[],
+    control?: IControl[]
+  ) {
+    if (groups) {
       groups.forEach((group) => {
         const arr = this.form.get(key) as FormArray;
         arr.push(new FormGroup({}));
@@ -133,15 +138,11 @@ export class FormArrayComponent
       });
     } else {
       const arr = this.form.get(key) as FormArray;
-      if(!arr.controls[index]) {
+      if (!arr.controls[index]) {
         arr.push(new FormGroup({}));
         this.arrayOfIndexes.push(index);
       }
-      this.addControlsToGroup(
-        arr,
-        index,
-        control
-      );
+      this.addControlsToGroup(arr, index, control);
     }
   }
 
@@ -153,6 +154,7 @@ export class FormArrayComponent
   }
 
   addNewControls(key: string) {
+    const index = this.formArray[key].groups.length;
     this.formArray[key].defaultControls.forEach((id) => {
       this.formArray[key].groups[0].controls.forEach((control) => {
         if (control.id === id) {
@@ -164,9 +166,15 @@ export class FormArrayComponent
             value: null,
           };
           newControl.push(new Control(cnt));
-          console.log(this.formArray[key].groups.length);
-          this.addFormGroupToArray(key, this.formArray[key].groups.length, null, newControl);
-          this.cdr.detectChanges();
+          this.addFormGroupToArray(key, index, null, newControl);
+          if (!this.formArray[key].groups[index]) {
+            this.formArray[key].groups[index] = new Group();
+            this.formArray[key].groups[index].controls.push(cnt);
+            this.cdr.detectChanges();
+          } else {
+            this.formArray[key].groups[index].controls.push(cnt);
+            this.cdr.detectChanges();
+          }
         }
       });
     });
