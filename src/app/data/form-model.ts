@@ -12,7 +12,7 @@ export const CFormModel = {
                   odjel: {
                     groups: [
                       {
-                        lijecnik: {
+                        liječnik: {
                           groups: [],
                           arrays: [],
                           controls: [
