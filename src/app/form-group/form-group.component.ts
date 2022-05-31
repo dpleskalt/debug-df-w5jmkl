@@ -79,6 +79,7 @@ export class FormGroupComponent
       });
     }
     this.formState.touchedState.subscribe(() => {
+      if(this.form.get)
       this.onTouched();
     });
     this.form.valueChanges.subscribe((val) => {

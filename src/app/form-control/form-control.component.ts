@@ -73,13 +73,14 @@ export class FormControlComponent
     this.onChanged = fn;
   }
 
+  registerOnTouched(fn: () => void) {
+    this.onTouched = fn;
+  }
+
   setDisabledState(disabled: boolean) {
     disabled ? this.fc.disable() : this.fc.enable();
   }
 
-  registerOnTouched(fn: () => void) {
-    this.onTouched = fn;
-  }
   validate(c: AbstractControl): ValidationErrors | null {
     return !this.fc.valid
       ? { invalidControl: { valid: false, message: 'Control is invalid' } }
