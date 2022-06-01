@@ -39,6 +39,7 @@ export class FormControlComponent
   implements ControlValueAccessor, Validator, OnInit, AfterViewInit
 {
   @Input() control: IControl;
+  @Input() parentControls: any[];
 
   public fc!: FormControl;
   public onChanged: any = () => {};
@@ -50,9 +51,9 @@ export class FormControlComponent
     this.fc = new FormControl('', {
       validators: this.control['validators'] as ValidatorFn[],
     });
-    this.formState.touchedState.subscribe(() => {
-      this.onTouched();
-    });
+    /* this.formState.controls.subscribe((controls) => {
+      // this.onTouched();
+    }); */
     this.fc.valueChanges.subscribe((val) => {
       this.onChanged(val);
     });
@@ -88,7 +89,7 @@ export class FormControlComponent
   }
 
   setTouchedState() {
-    this.formState.setTouchedState(this.fc.touched);
     this.onTouched();
+    this.formState.setTouchedState(this.control.id);
   }
 }

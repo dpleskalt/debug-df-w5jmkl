@@ -4,6 +4,7 @@
       <app-form-control
         [formControlName]="control.id"
         [control]="control"
+        [parentControls]="parentControls"
       ></app-form-control>
     </ng-container>
     <ng-container *ngFor="let label of groupLabels">
@@ -11,10 +12,16 @@
         [formControlName]="label"
         [group]="model.groups | getObject: label"
         [name]="label"
+        [parentControls]="parentControls"
       ></app-form-group>
     </ng-container>
     <ng-container *ngFor="let item of model.arrays; let i = index">
-      <app-form-array [formControlName]="i" [formArray]="item"></app-form-array>
+      <app-form-array
+        [formControlName]="i"
+        [formArray]="item"
+        [index]="i"
+        [parentControls]="parentControls"
+      ></app-form-array>
     </ng-container>
     <button
       matButton

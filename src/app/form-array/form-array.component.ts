@@ -1,3 +1,4 @@
+import { I } from '@angular/cdk/keycodes/keycodes';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -43,12 +44,17 @@ export class FormArrayComponent
   implements ControlValueAccessor, OnInit, AfterViewInit
 {
   @Input() formArray: IArray;
+  @Input() index: any;
+  @Input() parentControls: any[];
 
   public form: FormGroup = new FormGroup({});
   public arrayLabels: string[] = [];
   public groupsArray: IGroup[];
   public arrayOfIndexes: number[] = [];
   public initialValidity = false;
+
+  private controls: IControl[] = [];
+  private parent: string;
 
   onChanged: any = () => {};
   onTouched: any = () => {};
@@ -61,8 +67,18 @@ export class FormArrayComponent
 
   ngOnInit() {
     this.addFormArray();
-    this.formState.touchedState.subscribe(() => {
-      this.onTouched();
+    this.formState.updatedControl.subscribe((c) => {
+      const id = Object.keys(c)[0];
+      if (this.form.get(id)) {
+        this.onTouched();
+      }
+      if (c[id]?.parentControl) {
+        c[id].parentControl.forEach((id) => {
+          if (this.form.get(id)) {
+            this.onTouched();
+          }
+        });
+      }
     });
     this.form.valueChanges.subscribe((val) => {
       this.onChanged(val);
@@ -104,12 +120,7 @@ export class FormArrayComponent
         this.arrayLabels.push(key);
         this.form.addControl(key, this.fb.array([]));
         if (value.groups) {
-          const index = 0;
-          this.addFormGroupToArray(
-            key,
-            index,
-            value.groups as unknown as IGroup[]
-          );
+          this.addFormGroupToArray(key, 0, value.groups as unknown as IGroup[]);
         }
       });
     }
@@ -117,7 +128,7 @@ export class FormArrayComponent
 
   addFormGroupToArray(
     key: string,
-    index: number,
+    i: number,
     groups?: IGroup[],
     control?: IControl[]
   ) {
@@ -125,29 +136,41 @@ export class FormArrayComponent
       groups.forEach((group) => {
         const arr = this.form.get(key) as FormArray;
         arr.push(new FormGroup({}));
+        let ind = 0;
         Object.values(group).forEach((value) => {
           this.addControlsToGroup(
             arr,
-            index,
+            i,
             value.controls as unknown as IControl[]
           );
         });
-        this.arrayOfIndexes.push(index);
-        index += 1;
+        this.arrayOfIndexes.push(i);
+        i += 1;
       });
     } else {
       const arr = this.form.get(key) as FormArray;
-      if (!arr.controls[index]) {
+      if (!arr.controls[i]) {
         arr.push(new FormGroup({}));
       }
-      this.addControlsToGroup(arr, index, control);
+      this.addControlsToGroup(arr, i, control);
     }
   }
 
-  addControlsToGroup(arr: FormArray, index: number, controls: IControl[]) {
-    const group = arr.controls[index] as FormGroup;
-    controls.forEach((control) => {
+  addControlsToGroup(arr: FormArray, i: number, cntArray: IControl[]) {
+    const group = arr.controls[i] as FormGroup;
+    let tmpList: any[];
+    cntArray.forEach((control) => {
+      this.controls.push(control);
       group.addControl(control.id, this.fb.control({}));
+      this.parentControls.forEach((list) => {
+        if (list.indexOf(this.index.toString()) !== -1) {
+          const tmp: any[] = [];
+          tmp.push(list[0]);
+          tmp.push(this.index.toString());
+          this.formState.addControl(control.id, tmp);
+        }
+      });
+      this.formState.addControl(control.id, tmpList);
     });
   }
 

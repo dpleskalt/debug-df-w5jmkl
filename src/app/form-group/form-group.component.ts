@@ -41,6 +41,7 @@ export class FormGroupComponent
 {
   @Input() group: IGroup;
   @Input() name: string;
+  @Input() parentControls: any[];
 
   public form: FormGroup = new FormGroup({});
   public groupLabels: string[] = [];
@@ -50,6 +51,8 @@ export class FormGroupComponent
   public arrays: IArray[];
   public controls: IControl[];
   public initialValidity = false;
+
+  private allControls: string[] = [];
 
   public onChanged: any = () => {};
   public onTouched: any = () => {};
@@ -62,6 +65,14 @@ export class FormGroupComponent
       this.groups.forEach((group) => {
         this.groupLabels.push(Object.keys(group)[0]);
         this.form.addControl(Object.keys(group)[0], this.fb.control({}));
+        this.allControls.push(Object.keys(group)[0]);
+        let i = 0;
+        this.parentControls?.forEach((arr) => {
+          if (arr.indexOf(this.name) !== -1) {
+            this.parentControls[i].push(Object.keys(group)[0]);
+          }
+          i += 1;
+        });
       });
     }
     this.arrays = this.group.arrays as unknown as IArray[];
@@ -69,18 +80,45 @@ export class FormGroupComponent
       this.index = 0;
       this.arrays.forEach(() => {
         this.form.addControl(this.index.toString(), this.fb.control({}));
+        this.allControls.push(this.index.toString());
+        let i = 0;
+        this.parentControls?.forEach((arr) => {
+          if (arr.indexOf(this.name) !== -1) {
+            this.parentControls[i].push(this.index.toString());
+          }
+          i += 1;
+        });
         this.index += 1;
       });
     }
     this.controls = this.group.controls as unknown as IControl[];
     if (this.controls.length) {
       this.controls.forEach((control) => {
+        const controlParentList: any[] = [];
         this.form.addControl(control.id, this.fb.control({}));
+        this.parentControls.forEach((arr) => {
+          if (arr.indexOf(this.name) !== -1) {
+            for (let i = 0; i < arr.indexOf(this.name) + 1; i++) {
+              controlParentList.push(arr[i]);
+            }
+          }
+        });
+        this.formState.addControl(control.id, controlParentList);
+        this.allControls.push(control.id);
       });
     }
-    this.formState.touchedState.subscribe(() => {
-      if(this.form.get)
-      this.onTouched();
+    this.formState.updatedControl.subscribe((c) => {
+      const id = Object.keys(c)[0];
+      if (this.form.get(id)) {
+        this.onTouched();
+      }
+      if (c[id]?.parentControl) {
+        c[id].parentControl.forEach((id) => {
+          if (this.form.get(id)) {
+            this.onTouched();
+          }
+        });
+      }
     });
     this.form.valueChanges.subscribe((val) => {
       this.onChanged(val);
